@@ -5,10 +5,14 @@
  */
 package com.web.mavenproject6.controller;
 
-import com.web.mavenproject6.entities.Lessons;
+import com.web.mavenproject6.entities.Courses;
+import com.web.mavenproject6.entities.Materials;
+import com.web.mavenproject6.entities.Personal;
 import com.web.mavenproject6.entities.Users;
-import com.web.mavenproject6.service.LessonsService;
-import com.web.mavenproject6.service.LessonsServiceImp;
+import com.web.mavenproject6.service.CoursesService;
+import com.web.mavenproject6.service.CoursesServiceImp;
+import com.web.mavenproject6.service.MaterialsService;
+import com.web.mavenproject6.service.PersonalService;
 import com.web.mavenproject6.service.UserServiceImp;
 import java.util.Date;
 import java.util.List;
@@ -55,9 +59,14 @@ public class MainController {
     EntityManager em;
 
     @Autowired
-    // @Qualifier("LessonsService")
-    LessonsService lessonsService;
+    // @Qualifier("CoursesService")
+    CoursesService coursesService;
 
+    @Autowired
+    PersonalService personalService;
+
+    @Autowired
+    MaterialsService materialsService;
     /*@RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
      public ModelAndView defaultPage() {
 
@@ -68,6 +77,7 @@ public class MainController {
      return model;
 
      }*/
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView Test() {
 
@@ -86,122 +96,139 @@ public class MainController {
         JSONArray js = new JSONArray(jso);
         String[] str = new String[js.length()];
         for (int i = 0; i < js.length(); i++) {
-             str[i] = js.getJSONObject(i).getString("lessons");
+            str[i] = js.getJSONObject(i).getString("lessons");
             System.err.println(str[i]);
         }
         return "";
     }
-        @ResponseBody
-        @RequestMapping(value = "/q**", method = RequestMethod.GET)
-        public String TestQ
-        (@RequestParam(value = "jsondata")
-        String jsondata) throws JSONException {
-            JSONObject json = new JSONObject(jsondata);
-            String str = json.getString("lessonId");
-            if (str.equals("all")) {
-                List<Lessons> lst;
-                lst = (List<Lessons>) lessonsService.getLesson();
-                JSONArray jarr = new JSONArray();
-                jarr.put(lst);
-                /*for (Lessons lst1 : lst) {
-                 jarr.put(lst1);
-                 }*/
 
+    @ResponseBody
+    @RequestMapping(value = "/getPersonalJSON*", method = RequestMethod.GET)
+    public String getPersonalById(@RequestParam(value = "personalId") String id) throws JSONException {
+        Personal t;
+        try {
+            t = (Personal) personalService.getPersonalById(Long.parseLong(id));
+            return t.toString();
+        } catch (NullPointerException ex) {
+            return "null";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getMaterialJSON*", method = RequestMethod.GET)
+    public String getMaterialByTftL(@RequestParam(value = "personalId") String pers_id,
+            @RequestParam(value = "lessonId") String less_id) throws JSONException {
+        List<Materials> m;
+        try {
+            m = (List<Materials>) materialsService.getMaterial(Long.parseLong(pers_id), Long.parseLong(less_id));
+            return m.toString();
+        } catch (NullPointerException ex) {
+            return "null";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/q**", method = RequestMethod.GET)
+    public String TestQ(@RequestParam(value = "jsondata") String jsondata) throws JSONException {
+        JSONObject json = new JSONObject(jsondata);
+        String str = json.getString("lessonId");
+        if (str.equals("all")) {
+            List<Courses> lst;
+            lst = (List<Courses>) coursesService.getLesson();
+            JSONArray jarr = new JSONArray();
+            jarr.put(lst);
+            /*for (Courses lst1 : lst) {
+             jarr.put(lst1);
+             }*/
+            try {
                 return lst.toString();
-            } else {
-                Lessons les = new Lessons();
-                Long id = Long.parseLong(str);
-                try {
-                    les = (Lessons) lessonsService.getLesson(id);
-                    return les.toString();
-                } catch (NullPointerException ex) {
-                    return "null";
-                }
+            } catch (NullPointerException ex) {
+                return "null";
             }
-            /*String str2 =json.getString("type");
-             System.err.println("\nTry\n");
-             System.err.println("\n" + imgdata + "\n");
-             System.err.println("\n" + str1 + "\n");
-             System.err.println("\n" + str2 + "\n");
-             System.err.println("\nCatch\n");*/
-            /*ModelAndView model = new ModelAndView();
-             model.addObject("title", "Spring Security Login Form - Database Authentication");
-             model.addObject("message", "The desert wind has a name...");
-             model.setViewName("jsp/hello");*/
+        } else {
+            Courses c = new Courses();
+            Long id = Long.parseLong(str);
+            try {
+                c = (Courses) coursesService.getLesson(id);
+                return c.toString();
+            } catch (NullPointerException ex) {
+                return "null";
+            }
+        }
+        /*String str2 =json.getString("type");
+         System.err.println("\nTry\n");
+         System.err.println("\n" + imgdata + "\n");
+         System.err.println("\n" + str1 + "\n");
+         System.err.println("\n" + str2 + "\n");
+         System.err.println("\nCatch\n");*/
+        /*ModelAndView model = new ModelAndView();
+         model.addObject("title", "Spring Security Login Form - Database Authentication");
+         model.addObject("message", "The desert wind has a name...");
+         model.setViewName("jsp/hello");*/
        // return model;
 
-            // return "Op";
-        }
+        // return "Op";
+    }
 
-        @RequestMapping(value = "/admin**", method = RequestMethod.GET)
-        public ModelAndView adminPage
-        
-            () {
+    @RequestMapping(value = "/admin**", method = RequestMethod.GET)
+    public ModelAndView adminPage() {
 
         ModelAndView model = new ModelAndView();
-            model.addObject("title", "Spring Security Login Form - Database Authentication");
-            model.addObject("message", "This page is for ROLE_ADMIN only!");
-            model.setViewName("jsp/admin");
-            return model;
-
-        }
-
-        @RequestMapping(value = "/login", method = RequestMethod.GET)
-        public ModelAndView login
-        (@RequestParam(value = "error", required = false)
-        String error,
-            @RequestParam(value = "logout", required = false) 
-        String logout
-        
-            ) {
-
-        for (Users u : userServiceImp.list()) {
-                System.err.println(u.toString());
-            }
-            ModelAndView model = new ModelAndView();
-            if (error != null) {
-                model.addObject("error", "Invalid username and password!");
-            }
-
-            if (logout != null) {
-                model.addObject("msg", "You've been logged out successfully.");
-            }
-            model.setViewName("thy/login");
-
-            return model;
-
-        }
-
-        //for 403 access denied page
-        @RequestMapping(value = "/403", method = RequestMethod.GET)
-        public ModelAndView accesssDenied
-        
-            () {
-
-        ModelAndView model = new ModelAndView();
-
-            //check if user is login
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (!(auth instanceof AnonymousAuthenticationToken)) {
-                UserDetails userDetail = (UserDetails) auth.getPrincipal();
-                model.addObject("username", userDetail.getUsername());
-            }
-
-            model.setViewName("jsp/403");
-            return model;
-
-        }
-
-        @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Data integrity violation")
-        public ModelAndView handleError404
-        (HttpServletRequest request, Exception e
-        
-            ) {
-        ModelAndView mav = new ModelAndView();
-            mav.addObject("exception", e);
-            //mav.addObject("errorcode", "404");
-            mav.setViewName("jsp/403");
-            return mav;
-        }
+        model.addObject("title", "Spring Security Login Form - Database Authentication");
+        model.addObject("message", "This page is for ROLE_ADMIN only!");
+        model.setViewName("jsp/admin");
+        return model;
 
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(@RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout
+    ) {
+
+        for (Users u : userServiceImp.list()) {
+            System.err.println(u.toString());
+        }
+        ModelAndView model = new ModelAndView();
+        if (error != null) {
+            model.addObject("error", "Invalid username and password!");
+        }
+
+        if (logout != null) {
+            model.addObject("msg", "You've been logged out successfully.");
+        }
+        model.setViewName("thy/login");
+
+        return model;
+
+    }
+
+    //for 403 access denied page
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public ModelAndView accesssDenied() {
+
+        ModelAndView model = new ModelAndView();
+
+        //check if user is login
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetail = (UserDetails) auth.getPrincipal();
+            model.addObject("username", userDetail.getUsername());
+        }
+
+        model.setViewName("jsp/403");
+        return model;
+
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Data integrity violation")
+    public ModelAndView handleError404(HttpServletRequest request, Exception e
+    ) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", e);
+        //mav.addObject("errorcode", "404");
+        mav.setViewName("jsp/403");
+        return mav;
+    }
+
+}

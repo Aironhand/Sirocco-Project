@@ -25,14 +25,18 @@ import org.json.JSONObject;
 public class Materials implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "m_lLessonId")
-    private Lessons m_cLesson;
+    @JoinColumn(name = "m_lCourseId",nullable = false)
+    private Courses m_cCourse;
 
-    //private Teacher m_CTeacher;
+    @ManyToOne
+    @JoinColumn(name = "m_lPersonalId",nullable = false)
+    private Personal m_CPersonal;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long m_lMaterialsId;
-
+    
+    private String m_sName;
     private String m_sType;
     private String m_sAddress;
 
@@ -40,23 +44,41 @@ public class Materials implements Serializable {
         this.m_lMaterialsId = -1;
         this.m_sType = "";
         this.m_sAddress = "";
-
+        this.m_sName = "";
     }
 
-    public Materials(long m_lMaterialsId, String m_sType, String m_sAddress) {
+    public Materials(long m_lMaterialsId, String m_sName, String m_sType, String m_sAddress) {
         this.m_lMaterialsId = m_lMaterialsId;
         this.m_sType = m_sType;
         this.m_sAddress = m_sAddress;
+        this.m_sName = m_sName;
     }
 
-    public Lessons getM_cLesson() {
-        return m_cLesson;
+    public Courses getM_cCourse() {
+        return m_cCourse;
     }
 
-    public void setM_cLesson(Lessons m_cLesson) {
-        this.m_cLesson = m_cLesson;
+    public void setM_cCourse(Courses m_cCourse) {
+        this.m_cCourse = m_cCourse;
     }
 
+    public Personal getM_CPersonal() {
+        return m_CPersonal;
+    }
+
+    public void setM_CPersonal(Personal m_CPersonal) {
+        this.m_CPersonal = m_CPersonal;
+    }
+
+    public String getM_sName() {
+        return m_sName;
+    }
+
+    public void setM_sName(String m_sName) {
+        this.m_sName = m_sName;
+    }
+
+    
     public long getM_lMaterialsId() {
         return m_lMaterialsId;
     }
@@ -83,14 +105,14 @@ public class Materials implements Serializable {
 
     @Override
     public String toString() {
-        JSONObject m_jMaterial= new JSONObject();
+        JSONObject m_jMaterial = new JSONObject();
         try {
             m_jMaterial
                     .put("materialsId", m_lMaterialsId)
-                    .put("lessonId",m_cLesson.getM_sTitle())
+                    .put("courseId", m_cCourse.getM_lCourseId())
                     .put("type", m_sType)
-                    .put("address", m_sAddress)
-                    /*.put("teacher", m_sTeacher)*/;
+                    .put("address", m_sAddress) 
+                    .put("teacher", m_CPersonal.getM_lPersonalId());
             return (new JSONObject()).put("materials", m_jMaterial).toString();
         } catch (JSONException e) {
         }
