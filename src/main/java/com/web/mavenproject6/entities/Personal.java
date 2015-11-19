@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,12 +31,7 @@ public class Personal implements Serializable {
     @OneToMany(mappedBy = "m_CPersonal",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private List<Materials> m_CMaterials;
-
-    @OneToMany(mappedBy = "m_CPersonal",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    private List<Courses> m_cCourses;
+    private List<Schedule> m_CSchedule;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,14 +41,11 @@ public class Personal implements Serializable {
     private String m_sTitle;
     private String m_sBday;
     private String m_sInfo;
-
+    private String m_sWorkThems;
+    
     @ManyToOne
     @JoinColumn(name = "m_lFacultyId", nullable = false)
     private Faculty m_CFaculty;
-
-    @ManyToOne
-    @JoinColumn(name = "m_lAuditoryId")
-    private Auditory m_CAuditory;
 
     public Personal() {
         this.m_lPersonalId = -1;
@@ -64,28 +55,14 @@ public class Personal implements Serializable {
         this.m_sTitle = "";
     }
 
-    public Personal(long m_lPersonalId, String m_sFST, String m_sTitle, String m_sBday, String m_sInfo) {
+    public Personal(long m_lPersonalId, String m_sFST, String m_sTitle, String m_sBday, String m_sInfo, 
+            String m_sWorkThems) {
         this.m_lPersonalId = m_lPersonalId;
         this.m_sFST = m_sFST;
         this.m_sBday = m_sBday;
         this.m_sInfo = m_sInfo;
         this.m_sTitle = m_sTitle;
-    }
-
-    public List<Materials> getM_CMaterials() {
-        return m_CMaterials;
-    }
-
-    public void setM_CMaterials(List<Materials> m_CMaterials) {
-        this.m_CMaterials = m_CMaterials;
-    }
-
-    public List<Courses> getM_cCourses() {
-        return m_cCourses;
-    }
-
-    public void setM_cCourses(List<Courses> m_cCourses) {
-        this.m_cCourses = m_cCourses;
+        this.m_sWorkThems = m_sWorkThems;
     }
 
     public long getM_lPersonalId() {
@@ -128,22 +105,53 @@ public class Personal implements Serializable {
         this.m_sInfo = m_sInfo;
     }
 
+    public String getM_sWorkItems() {
+        return m_sWorkThems;
+    }
+
+    public void setM_sWorkItems(String m_sWorkThems) {
+        this.m_sWorkThems = m_sWorkThems;
+    }
+
+    public Faculty getM_CFaculty() {
+        return m_CFaculty;
+    }
+
+    public void setM_CFaculty(Faculty m_CFaculty) {
+        this.m_CFaculty = m_CFaculty;
+    }
+
     @Override
     public String toString() {
-        JSONObject jTeacher = new JSONObject();
-        JSONArray jCoursesArray = new JSONArray();
-        jCoursesArray.put(m_cCourses);
+        JSONObject jPerson = new JSONObject();
         try {
-
-            jTeacher
+            jPerson
                     .put("perosnalId", m_lPersonalId)
                     .put("name", m_sFST)
                     .put("title", m_sTitle)
                     .put("birthday", m_sBday)
                     .put("otherInfo", m_sInfo)
-                    .put("courses", m_cCourses.toString())
-                    .put("documents", m_CMaterials.toString());
-            return (new JSONObject()).put("personal", jTeacher).toString();
+                    .put("workThems", m_sWorkThems)
+                    .put("courses", m_CSchedule);
+            return (new JSONObject()).put("personal", jPerson).toString();
+        } catch (JSONException e) {
+        }
+        return "Error";
+    }
+    
+    public String toString(List<Courses> lCourses, List<Materials> lMaterials) {
+        JSONObject jPerson = new JSONObject();
+        try {
+            jPerson
+                    .put("perosnalId", m_lPersonalId)
+                    .put("name", m_sFST)
+                    .put("title", m_sTitle)
+                    .put("birthday", m_sBday)
+                    .put("otherInfo", m_sInfo)
+                    .put("workThems", m_sWorkThems)
+                    .put("courses", lCourses)
+                    .put("documents", lMaterials);
+            return (new JSONObject()).put("personal", jPerson).toString();
         } catch (JSONException e) {
         }
         return "Error";

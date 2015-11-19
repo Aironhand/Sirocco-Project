@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -29,41 +31,32 @@ public class Auditory implements Serializable {
     @OneToMany(mappedBy = "m_CAuditory",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private List<Personal> m_CPersonal;
+    private List<Schedule> m_CSchedule;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long m_lAuditoryId;
-
+    
     private String m_sNumber;
+    private String m_sDescription;
     private String m_sTitle;
     private String m_sInfo;
+    
+    private int[] m_aPersonal;
+    private  byte[] m_aPhoto;
     
     @ManyToOne
     @JoinColumn(name = "m_lFacultyId")
     private Faculty m_CFaculty;
 
-    @ManyToOne
-    @JoinColumn(name = "m_lMapId")
-    private Map m_CMap;
-
     public Auditory() {
     }
 
-    public Auditory(List<Personal> m_CPersonal, long m_lAuditoryId, String m_sNumber, String m_sTitle, String m_sInfo) {
-        this.m_CPersonal = m_CPersonal;
+    public Auditory(long m_lAuditoryId, String m_sNumber, String m_sTitle, String m_sInfo) {
         this.m_lAuditoryId = m_lAuditoryId;
         this.m_sNumber = m_sNumber;
         this.m_sTitle = m_sTitle;
         this.m_sInfo = m_sInfo;
-    }
-
-    public List<Personal> getM_CPersonal() {
-        return m_CPersonal;
-    }
-
-    public void setM_CPersonal(List<Personal> m_CPersonal) {
-        this.m_CPersonal = m_CPersonal;
     }
 
     public long getM_lAuditoryId() {
@@ -97,5 +90,62 @@ public class Auditory implements Serializable {
     public void setM_sInfo(String m_sInfo) {
         this.m_sInfo = m_sInfo;
     }
+
+    public List<Schedule> getM_CSchedule() {
+        return m_CSchedule;
+    }
+
+    public void setM_CSchedule(List<Schedule> m_CSchedule) {
+        this.m_CSchedule = m_CSchedule;
+    }
+
+    public String getM_sDescription() {
+        return m_sDescription;
+    }
+
+    public void setM_sDescription(String m_sDescription) {
+        this.m_sDescription = m_sDescription;
+    }
+
+    public int[] getM_aPersonal() {
+        return m_aPersonal;
+    }
+
+    public void setM_aPersonal(int[] m_aPersonal) {
+        this.m_aPersonal = m_aPersonal;
+    }
+
+    public byte[] getM_aPhoto() {
+        return m_aPhoto;
+    }
+
+    public void setM_aPhoto(byte[] m_aPhoto) {
+        this.m_aPhoto = m_aPhoto;
+    }
+
+    public Faculty getM_CFaculty() {
+        return m_CFaculty;
+    }
+
+    public void setM_CFaculty(Faculty m_CFaculty) {
+        this.m_CFaculty = m_CFaculty;
+    }
     
+    @Override
+    public String toString(){
+    JSONObject m_jAuditory = new JSONObject();
+        try{
+            m_jAuditory
+                    .put("id", m_lAuditoryId)
+                    .put("title", m_sTitle)
+                    .put("auditoryId", m_sNumber)
+                    .put("description", m_sDescription)
+                    .put("auditoryPersonal", m_aPersonal)
+                    .put("fcltId",m_CFaculty.getM_lFacultyId());
+             return (new JSONObject()).put("auditory", m_jAuditory).toString();
+        }
+        catch(JSONException e){
+        }
+        return "Error";
+    }
 }

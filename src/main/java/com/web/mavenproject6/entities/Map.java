@@ -7,17 +7,15 @@ package com.web.mavenproject6.entities;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -27,24 +25,23 @@ import javax.persistence.Table;
 @Table(name = "map")
 public class Map implements Serializable {
 
-    @OneToMany(mappedBy = "m_CMap",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    private List<Auditory> m_CAuditory;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long m_lMapId;
 
     private int m_nCurrentFloor;
     private int m_nFloorCount;
-    
+    private HashMap<String,String>[] m_hmAuditories;
+    private HashMap<String, String>[] m_hmMapSize;
+    private byte[] m_aPhoto;
     
     @ManyToOne
     @JoinColumn(name = "m_lFacultyId", nullable = false)
     private Faculty m_CFaculty;
     
     public Map() {
+       // m_lMapSize = (HashMap<String, String>[]) new HashMap<?,?>[10];
     }
 
     public Map(long m_lMapId, int m_nCurrentFloor, int m_nFloorCount, Faculty m_CFaculty) {
@@ -52,6 +49,7 @@ public class Map implements Serializable {
         this.m_nCurrentFloor = m_nCurrentFloor;
         this.m_nFloorCount = m_nFloorCount;
         this.m_CFaculty = m_CFaculty;
+        
     }
 
     public long getM_lMapId() {
@@ -86,4 +84,45 @@ public class Map implements Serializable {
         this.m_CFaculty = m_CFaculty;
     }
 
+    public byte[] getM_aPhoto() {
+        return m_aPhoto;
+    }
+
+    public void setM_aPhoto(byte[] m_aPhoto) {
+        this.m_aPhoto = m_aPhoto;
+    }
+
+    public HashMap<String, String>[] getM_hmAuditories() {
+        return m_hmAuditories;
+    }
+
+    public void setM_hmAuditories(HashMap<String, String>[] m_hmAuditories) {
+        this.m_hmAuditories = m_hmAuditories;
+    }
+
+    public HashMap<String, String>[] getM_hmMapSize() {
+        return m_hmMapSize;
+    }
+
+    public void setM_hmMapSize(HashMap<String, String>[] m_hmMapSize) {
+        this.m_hmMapSize = m_hmMapSize;
+    }
+
+    @Override
+    public String toString(){
+        JSONObject jMap = new JSONObject();
+        try {
+            jMap
+                    .put("mapId", m_lMapId)
+                    .put("fcltCurrentStage", m_nCurrentFloor)
+                    .put("fcltStageCount", m_nFloorCount)
+                    .put("fcltId", m_CFaculty.getM_lFacultyId())
+                    .put("fcltName", m_CFaculty.getM_sTitle())
+                    .put("fcltAuditories", m_hmAuditories)
+                    .put("map", m_hmMapSize);
+            return (new JSONObject()).put("map", jMap).toString();
+        } catch (JSONException e) {
+        }
+        return "Error";
+    }
 }

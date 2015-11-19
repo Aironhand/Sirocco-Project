@@ -82,4 +82,28 @@ public class Faculty implements Serializable {
         this.m_sInfo = m_sInfo;
     }
 
+    public List<Personal> getM_CPersonal() {
+        return m_CPersonal;
+    }
+
+    public void setM_CPersonal(List<Personal> m_CPersonal) {
+        this.m_CPersonal = m_CPersonal;
+    }
+
+    public List<Auditory> getM_CAuditory() {
+        return m_CAuditory;
+    }
+
+    public void setM_CAuditory(List<Auditory> m_CAuditory) {
+        this.m_CAuditory = m_CAuditory;
+    }
+
+    public List<Map> getM_CMap() {
+        return m_CMap;
+    }
+
+    public void setM_CMap(List<Map> m_CMap) {
+        this.m_CMap = m_CMap;
+    }
+    
 }

@@ -36,7 +36,7 @@ public class CoursesServiceImp implements CoursesService {
     }
 
     @Override
-    public Object getLesson() {
+    public Object getLesson() throws NullPointerException  {
         try {
             TypedQuery query = em.createQuery("select c from Courses c", Courses.class);
             return query.getResultList();
@@ -46,20 +46,20 @@ public class CoursesServiceImp implements CoursesService {
     }
 
     @Override
-    public Object getLesson(long CourseId) throws NullPointerException {
-        /*   try {
-         return em.createQuery("from Courses where  m_lCourseId = :m_lLessonId", Courses.class)
-         .setParameter("m_lLessonId", m_lLessonId)
-         .getSingleResult();
-         } catch (Exception ex) {
-         return null;
-         }*/
-        TypedQuery query = em.createQuery("select c from Courses c where c.m_lCourseId = ?1", Courses.class);
-        query.setParameter(1, CourseId);
+    public Object getLesson(long m_lCourseId) throws NullPointerException {
+        TypedQuery query = em.createQuery("select c from Courses c where c.m_lCourseId = ?1", Courses.class)
+            .setParameter(1, m_lCourseId);
+        return query.getResultList();
 
-        try {
-            return query.getSingleResult();
-        } catch (Exception ex) {
+    }
+
+    @Override
+    public Object getLessonByPerson(long id) throws NullPointerException {
+        try{
+            TypedQuery query = em.createQuery("select c from Courses c where c.m_lPersonalId = ?1", Courses.class)
+                .setParameter(1, id);
+            return query.getResultList();}
+        catch(Exception ex){
             return null;
         }
     }

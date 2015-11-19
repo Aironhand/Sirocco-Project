@@ -6,7 +6,6 @@
 package com.web.mavenproject6.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,8 +13,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.json.JSONException;
@@ -33,6 +30,11 @@ public class Courses implements Serializable {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<Materials> m_CMaterials;
+    
+    @OneToMany(mappedBy = "m_CCourse",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private List<Schedule> m_CSchedule;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,10 +42,7 @@ public class Courses implements Serializable {
   
     private String m_sDescription;
     private String m_sTitle;
-    
-    @ManyToOne
-    @JoinColumn(name = "m_lPersonalId",nullable = false)
-    private Personal m_CPersonal;
+    private long m_lPersonalId;
     
     public Courses() {
         this.m_lCourseId = -1;
@@ -72,14 +71,6 @@ public class Courses implements Serializable {
     public void setM_sDescription(String m_sDescription) {
         this.m_sDescription = m_sDescription;
     }
-
-    public Personal getM_CPersonal() {
-        return m_CPersonal;
-    }
-
-    public void setM_CPersonal(Personal m_CPersonal) {
-        this.m_CPersonal = m_CPersonal;
-    }
    
     public long getM_lCourseId() {
         return m_lCourseId;
@@ -97,6 +88,22 @@ public class Courses implements Serializable {
         this.m_sTitle = m_sTitle;
     }
 
+    public List<Schedule> getM_CSchedule() {
+        return m_CSchedule;
+    }
+
+    public void setM_CSchedule(List<Schedule> m_CSchedule) {
+        this.m_CSchedule = m_CSchedule;
+    }
+
+    public long getM_lPersonalId() {
+        return m_lPersonalId;
+    }
+
+    public void setM_lPersonalId(long m_lPersonalId) {
+        this.m_lPersonalId = m_lPersonalId;
+    }
+
     @Override
     public String toString(){
         JSONObject m_jLesson = new JSONObject();
@@ -104,8 +111,7 @@ public class Courses implements Serializable {
             m_jLesson
                     .put("lessonId", m_lCourseId)
                     .put("title", m_sTitle)
-                    .put("description", m_sDescription)
-                    .put("teacher", m_CPersonal.getM_lPersonalId());
+                    .put("description", m_sDescription);
              return (new JSONObject()).put("lessons", m_jLesson).toString();
         }
         catch(JSONException e){

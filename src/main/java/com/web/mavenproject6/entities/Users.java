@@ -6,16 +6,14 @@
 package com.web.mavenproject6.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -32,8 +30,7 @@ public class Users implements Serializable
     private String password;  
     private String role;  
     private boolean enabled;
-  //  private Set<Wallet> wallets = new HashSet<Wallet>(0); 
-
+    
     public Users(long id, String username, String password, boolean enabled) {
         this.id = id;
         this.username = username;
@@ -91,23 +88,19 @@ public class Users implements Serializable
     public void setRole(String role) {
         this.role = role;
     }
-    /*
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    public Set<Wallet> getWallets() 
-    {
-        return wallets;
-    }
-
-    public void setWallets(Wallet wallet) 
-    {
-        this.wallets.add(wallet);
-    }
-       */
+  
     @Override
     public String toString() {
-        return "Users{" + "id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled +'}';
+        JSONObject m_jUser = new JSONObject();
+         try {
+            m_jUser
+                    .put("UserId", id)
+                    .put("username", username)
+                    .put("password", password)
+                    .put("enabled", enabled==true?"true":"false");
+            return (new JSONObject()).put("users", m_jUser).toString();
+        } catch (JSONException e) {
+        }
+        return "Error";
     }
-
-   
-   
 }

@@ -25,33 +25,32 @@ import org.json.JSONObject;
 public class Materials implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "m_lCourseId",nullable = false)
+    @JoinColumn(name = "m_lCourseId", nullable = false)
     private Courses m_cCourse;
-
-    @ManyToOne
-    @JoinColumn(name = "m_lPersonalId",nullable = false)
-    private Personal m_CPersonal;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long m_lMaterialsId;
-    
+
     private String m_sName;
     private String m_sType;
     private String m_sAddress;
+    private long m_lPersonalId;
 
     public Materials() {
         this.m_lMaterialsId = -1;
         this.m_sType = "";
         this.m_sAddress = "";
         this.m_sName = "";
+        this.m_lPersonalId = -1;
     }
 
-    public Materials(long m_lMaterialsId, String m_sName, String m_sType, String m_sAddress) {
+    public Materials(long m_lMaterialsId, String m_sName, String m_sType, String m_sAddress, int m_lPersonalId) {
         this.m_lMaterialsId = m_lMaterialsId;
         this.m_sType = m_sType;
         this.m_sAddress = m_sAddress;
         this.m_sName = m_sName;
+        this.m_lPersonalId = m_lPersonalId;
     }
 
     public Courses getM_cCourse() {
@@ -62,14 +61,6 @@ public class Materials implements Serializable {
         this.m_cCourse = m_cCourse;
     }
 
-    public Personal getM_CPersonal() {
-        return m_CPersonal;
-    }
-
-    public void setM_CPersonal(Personal m_CPersonal) {
-        this.m_CPersonal = m_CPersonal;
-    }
-
     public String getM_sName() {
         return m_sName;
     }
@@ -78,7 +69,6 @@ public class Materials implements Serializable {
         this.m_sName = m_sName;
     }
 
-    
     public long getM_lMaterialsId() {
         return m_lMaterialsId;
     }
@@ -103,6 +93,14 @@ public class Materials implements Serializable {
         this.m_sAddress = m_sAddress;
     }
 
+    public long getM_lPersonalId() {
+        return m_lPersonalId;
+    }
+
+    public void setM_lPersonalId(long m_lPersonalId) {
+        this.m_lPersonalId = m_lPersonalId;
+    }
+
     @Override
     public String toString() {
         JSONObject m_jMaterial = new JSONObject();
@@ -111,11 +109,11 @@ public class Materials implements Serializable {
                     .put("materialsId", m_lMaterialsId)
                     .put("courseId", m_cCourse.getM_lCourseId())
                     .put("type", m_sType)
-                    .put("address", m_sAddress) 
-                    .put("teacher", m_CPersonal.getM_lPersonalId());
+                    .put("address", m_sAddress);
             return (new JSONObject()).put("materials", m_jMaterial).toString();
         } catch (JSONException e) {
         }
         return "Error";
     }
+
 }

@@ -31,13 +31,10 @@ public class MaterialsServiceImp implements MaterialsService {
     }
 
     @Override
-    public Object getMaterial(long teacher, long lesson) {
+    public Object getMaterialByPerson(long id) throws NullPointerException {
         try {
-            TypedQuery query = em.createQuery("select m from Materials m where m.m_CPersonal.m_lPersonalId = ?1 "
-                    + "and m.m_cCourse.m_lCourseId =?2", Materials.class);
-            query
-                 .setParameter(1, teacher)
-                 .setParameter(2, lesson);
+            TypedQuery query = em.createQuery("select m from Materials m where m.m_lPersonalId = ?1", Materials.class);
+            query.setParameter(1, id);
             return query.getResultList();
         } catch (Exception ex) {
             return null;

@@ -38,7 +38,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
             
             http
             .authorizeRequests()                                                                
-                .antMatchers("/","/get**","/q**","/login","/a**","/vkapi**").permitAll()                  
+                .antMatchers("/","/get**","/login","/vkapi**").permitAll()                  
                 .antMatchers("/admin/**").hasAuthority("admin")                                   
                 .anyRequest().authenticated() 
             .and()

@@ -11,5 +11,5 @@ package com.web.mavenproject6.service;
  */
 public interface MaterialsService {
     long count();
-    Object getMaterial(long teacher,long lesson);
+    Object getMaterialByPerson(long id);
 }

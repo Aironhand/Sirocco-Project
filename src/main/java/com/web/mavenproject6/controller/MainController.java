@@ -5,42 +5,26 @@
  */
 package com.web.mavenproject6.controller;
 
-import com.web.mavenproject6.entities.Courses;
-import com.web.mavenproject6.entities.Materials;
-import com.web.mavenproject6.entities.Personal;
 import com.web.mavenproject6.entities.Users;
 import com.web.mavenproject6.service.CoursesService;
-import com.web.mavenproject6.service.CoursesServiceImp;
 import com.web.mavenproject6.service.MaterialsService;
 import com.web.mavenproject6.service.PersonalService;
 import com.web.mavenproject6.service.UserServiceImp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  *
@@ -59,7 +43,6 @@ public class MainController {
     EntityManager em;
 
     @Autowired
-    // @Qualifier("CoursesService")
     CoursesService coursesService;
 
     @Autowired
@@ -67,19 +50,9 @@ public class MainController {
 
     @Autowired
     MaterialsService materialsService;
-    /*@RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
-     public ModelAndView defaultPage() {
-
-     ModelAndView model = new ModelAndView();
-     model.addObject("title", "Spring Security Login Form - Database Authentication");
-     model.addObject("message", "This is default page!");
-     model.setViewName("jsp/hello");
-     return model;
-
-     }*/
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView Test() {
+    public ModelAndView defaultPage() {
 
         ModelAndView model = new ModelAndView();
         model.addObject("title", "Welcome to SiroccoProject");
@@ -87,87 +60,6 @@ public class MainController {
         model.setViewName("jsp/hello");
         return model;
 
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/a**", method = RequestMethod.GET)
-    public String Tes(@RequestParam(value = "j") String jso) throws JSONException {
-        JSONObject json = new JSONObject(jso);
-        JSONArray js = new JSONArray(jso);
-        String[] str = new String[js.length()];
-        for (int i = 0; i < js.length(); i++) {
-            str[i] = js.getJSONObject(i).getString("lessons");
-            System.err.println(str[i]);
-        }
-        return "";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/getPersonalJSON*", method = RequestMethod.GET)
-    public String getPersonalById(@RequestParam(value = "personalId") String id) throws JSONException {
-        Personal t;
-        try {
-            t = (Personal) personalService.getPersonalById(Long.parseLong(id));
-            return t.toString();
-        } catch (NullPointerException ex) {
-            return "null";
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/getMaterialJSON*", method = RequestMethod.GET)
-    public String getMaterialByTftL(@RequestParam(value = "personalId") String pers_id,
-            @RequestParam(value = "lessonId") String less_id) throws JSONException {
-        List<Materials> m;
-        try {
-            m = (List<Materials>) materialsService.getMaterial(Long.parseLong(pers_id), Long.parseLong(less_id));
-            return m.toString();
-        } catch (NullPointerException ex) {
-            return "null";
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/q**", method = RequestMethod.GET)
-    public String TestQ(@RequestParam(value = "jsondata") String jsondata) throws JSONException {
-        JSONObject json = new JSONObject(jsondata);
-        String str = json.getString("lessonId");
-        if (str.equals("all")) {
-            List<Courses> lst;
-            lst = (List<Courses>) coursesService.getLesson();
-            JSONArray jarr = new JSONArray();
-            jarr.put(lst);
-            /*for (Courses lst1 : lst) {
-             jarr.put(lst1);
-             }*/
-            try {
-                return lst.toString();
-            } catch (NullPointerException ex) {
-                return "null";
-            }
-        } else {
-            Courses c = new Courses();
-            Long id = Long.parseLong(str);
-            try {
-                c = (Courses) coursesService.getLesson(id);
-                return c.toString();
-            } catch (NullPointerException ex) {
-                return "null";
-            }
-        }
-        /*String str2 =json.getString("type");
-         System.err.println("\nTry\n");
-         System.err.println("\n" + imgdata + "\n");
-         System.err.println("\n" + str1 + "\n");
-         System.err.println("\n" + str2 + "\n");
-         System.err.println("\nCatch\n");*/
-        /*ModelAndView model = new ModelAndView();
-         model.addObject("title", "Spring Security Login Form - Database Authentication");
-         model.addObject("message", "The desert wind has a name...");
-         model.setViewName("jsp/hello");*/
-       // return model;
-
-        // return "Op";
     }
 
     @RequestMapping(value = "/admin**", method = RequestMethod.GET)
