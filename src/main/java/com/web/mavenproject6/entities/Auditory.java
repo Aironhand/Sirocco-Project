@@ -40,23 +40,23 @@ public class Auditory implements Serializable {
     private String m_sNumber;
     private String m_sDescription;
     private String m_sTitle;
-    private String m_sInfo;
+    
     
     private int[] m_aPersonal;
     private  byte[] m_aPhoto;
     
     @ManyToOne
-    @JoinColumn(name = "m_lFacultyId")
+    @JoinColumn(name = "m_lFacultyId",nullable = false)
     private Faculty m_CFaculty;
 
     public Auditory() {
     }
 
-    public Auditory(long m_lAuditoryId, String m_sNumber, String m_sTitle, String m_sInfo) {
+    public Auditory(long m_lAuditoryId, String m_sNumber, String m_sTitle) {
         this.m_lAuditoryId = m_lAuditoryId;
         this.m_sNumber = m_sNumber;
         this.m_sTitle = m_sTitle;
-        this.m_sInfo = m_sInfo;
+        
     }
 
     public long getM_lAuditoryId() {
@@ -81,14 +81,6 @@ public class Auditory implements Serializable {
 
     public void setM_sTitle(String m_sTitle) {
         this.m_sTitle = m_sTitle;
-    }
-
-    public String getM_sInfo() {
-        return m_sInfo;
-    }
-
-    public void setM_sInfo(String m_sInfo) {
-        this.m_sInfo = m_sInfo;
     }
 
     public List<Schedule> getM_CSchedule() {
