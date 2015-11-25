@@ -57,7 +57,7 @@ public class MainController {
         ModelAndView model = new ModelAndView();
         model.addObject("title", "Welcome to SiroccoProject");
         model.addObject("message", "The desert wind has a name...");
-        model.setViewName("jsp/hello");
+        model.setViewName("thy/index");
         return model;
 
     }
@@ -77,10 +77,10 @@ public class MainController {
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout
     ) {
-
+/*
         for (Users u : userServiceImp.list()) {
             System.err.println(u.toString());
-        }
+        }*/
         ModelAndView model = new ModelAndView();
         if (error != null) {
             model.addObject("error", "Invalid username and password!");

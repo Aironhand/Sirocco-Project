@@ -60,7 +60,7 @@ public class AuditoryController {
     @RequestMapping(value = "/getAuditoryPhoto*", method = RequestMethod.GET)
     public @ResponseBody
     BufferedImage getAuditoryPhoto(@RequestParam(value = "fcltId") String fcltId,
-            @RequestParam(value = "AuditoryId") String audId) throws JSONException, IOException {
+            @RequestParam(value = "AuditoryId") String audId) throws IOException  {
         Auditory aud;
         BufferedImage img;
         byte[] imageInByte;

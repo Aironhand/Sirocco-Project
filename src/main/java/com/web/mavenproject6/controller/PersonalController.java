@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -46,7 +46,7 @@ public class PersonalController {
 
     @ResponseBody
     @RequestMapping(value = "/getPersonalJSON*", method = RequestMethod.GET)
-    public String getPersonalById(@RequestParam(value = "personalId") String id) throws JSONException {
+    public String getPersonalById(@RequestParam(value = "personalId") String id) {
         Personal cPersonal;
         List<Courses> lCourses;
         List<Materials> lMaterials;

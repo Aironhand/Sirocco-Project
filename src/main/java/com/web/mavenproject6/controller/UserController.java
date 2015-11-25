@@ -28,16 +28,15 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class UserController {
-    
+
     @Autowired
     private Environment env;
-    
+
     @Autowired
     UserServiceImp userServiceImp;
-    
-     
-    @RequestMapping(value="/signup")
-    public ModelAndView signUpUser(HttpServletRequest request,HttpServletResponse response,Map<String, Object> model) {
+
+    @RequestMapping(value = "/signup")
+    public ModelAndView signUpUser(HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) {
         model.put("message", "Hello World");
         model.put("title", "Hello Home");
         model.put("date", new Date());
@@ -46,40 +45,40 @@ public class UserController {
         u.setUsername("admin");
         u.setPassword("password");
         userServiceImp.add(u);
-        return new ModelAndView("thy/home");    
-    }
-    
-    @RequestMapping("/admin/apanel")
-    public String home(Map<String, Object> model) {
-            model.put("users", userServiceImp.list());
-            return "thy/adminPanel";
-    }
-   
-   @RequestMapping(value="/user/add",method =   RequestMethod.POST)
-   public void addUser(@RequestParam("username") String username, 
-                               @RequestParam("password") String pass,
-                               @RequestParam(required=false ,value = "admin",defaultValue = "false") boolean admin,
-                               HttpServletResponse response,ModelMap map) throws IOException{ 
-       Users u = new Users();
-       u.setUsername(username);
-       u.setPassword(pass);
-       if (admin)
-           u.setRole("admin");
-       else
-           u.setRole("user");
-       u.setEnabled(true);
-       userServiceImp.add(u);      
-       response.sendRedirect("/../admin/apanel");
-      // return "redirect:admin/apanel";
-   }
-    
-    @RequestMapping(value="/user/del/{userId}")
-    public void deleteUser(@PathVariable("userId") String id,HttpServletRequest request,HttpServletResponse response,ModelMap map) throws IOException{
-       userServiceImp.delete((long)Integer.parseInt(id));
-       map.addAttribute("id", id);
-           response.sendRedirect("/../admin/apanel");
-     //   return "redirect:admin/apanel";
+        return new ModelAndView("thy/home");
     }
 
-   
+    @RequestMapping("/admin/apanel")
+    public String home(Map<String, Object> model) {
+        model.put("users", userServiceImp.list());
+        return "thy/adminPanel";
+    }
+
+    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    public void addUser(@RequestParam("username") String username,
+            @RequestParam("password") String pass,
+            @RequestParam(required = false, value = "admin", defaultValue = "false") boolean admin,
+            HttpServletResponse response, ModelMap map) throws IOException {
+        Users u = new Users();
+        u.setUsername(username);
+        u.setPassword(pass);
+        if (admin) {
+            u.setRole("admin");
+        } else {
+            u.setRole("user");
+        }
+        u.setEnabled(true);
+        userServiceImp.add(u);
+        response.sendRedirect("/admin/apanel");
+        // return "redirect:admin/apanel";
+    }
+
+    @RequestMapping(value = "/user/del/{userId}", method = RequestMethod.GET)
+    public void deleteUser(@PathVariable("userId") String id/*, HttpServletRequest request*/, HttpServletResponse response, ModelMap map) throws IOException {
+        userServiceImp.delete((long) Integer.parseInt(id));
+        map.addAttribute("id", id);
+        response.sendRedirect("/admin/apanel");
+        //   return "redirect:admin/apanel";
+    }
+
 }

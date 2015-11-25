@@ -26,7 +26,8 @@ and open the template in the editor.
                 <td th:text="${user.id}">Onions</td>
                 <td th:text="${user.username}">2.41</td>
                 <td th:text="${user.password}">yes</td>
-                <td><a th:href="@{'/user/del/'+${user.id}}">remove</a></td>
+                <td th:text="${user.role}">yes</td>
+                <td><a th:href="@{'/user/del/'+${user.id}}">rEmove</a></td>
               </tr>
             </table> 
         <p th:text="${id}" th:if="${!#strings.isEmpty(id)}">text</p>
@@ -38,7 +39,7 @@ and open the template in the editor.
         </form>
         <div class="row">
             <div class="cocol-md-3">
-                <a class="btn btn-default get-userlist" >List</a>
+                <a class="btn btn-default get-userlist" >LLLList</a>
                  <div class="content-place">
                      
                  </div>                

@@ -7,6 +7,7 @@ package com.web.mavenproject6.service;
 
 import com.web.mavenproject6.entities.Courses;
 import com.web.mavenproject6.repositories.CoursesRepository;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,22 @@ public class CoursesServiceImp implements CoursesService {
         return coursesRepository.count();
     }
 
+    public List<Courses> list() {
+        return (List<Courses>) coursesRepository.findAll();
+    }
+
     @Override
-    public Object getLesson() throws NullPointerException  {
+    public void add(Courses course) {
+        coursesRepository.save(course);
+    }
+
+    @Override
+    public void delete(Long id) {
+        coursesRepository.delete(id);
+    }
+
+    @Override
+    public Object getLesson() throws NullPointerException {
         try {
             TypedQuery query = em.createQuery("select c from Courses c", Courses.class);
             return query.getResultList();
@@ -48,18 +63,18 @@ public class CoursesServiceImp implements CoursesService {
     @Override
     public Object getLesson(long m_lCourseId) throws NullPointerException {
         TypedQuery query = em.createQuery("select c from Courses c where c.m_lCourseId = ?1", Courses.class)
-            .setParameter(1, m_lCourseId);
+                .setParameter(1, m_lCourseId);
         return query.getResultList();
 
     }
 
     @Override
     public Object getLessonByPerson(long id) throws NullPointerException {
-        try{
+        try {
             TypedQuery query = em.createQuery("select c from Courses c where c.m_lPersonalId = ?1", Courses.class)
-                .setParameter(1, id);
-            return query.getResultList();}
-        catch(Exception ex){
+                    .setParameter(1, id);
+            return query.getResultList();
+        } catch (Exception ex) {
             return null;
         }
     }

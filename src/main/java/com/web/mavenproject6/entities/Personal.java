@@ -42,6 +42,8 @@ public class Personal implements Serializable {
     private String m_sBday;
     private String m_sInfo;
     private String m_sWorkThems;
+    private byte[] m_aPhoto;
+    
     
     @ManyToOne
     @JoinColumn(name = "m_lFacultyId", nullable = false)
@@ -121,6 +123,30 @@ public class Personal implements Serializable {
         this.m_CFaculty = m_CFaculty;
     }
 
+    public List<Schedule> getM_CSchedule() {
+        return m_CSchedule;
+    }
+
+    public void setM_CSchedule(List<Schedule> m_CSchedule) {
+        this.m_CSchedule = m_CSchedule;
+    }
+
+    public String getM_sWorkThems() {
+        return m_sWorkThems;
+    }
+
+    public void setM_sWorkThems(String m_sWorkThems) {
+        this.m_sWorkThems = m_sWorkThems;
+    }
+
+    public byte[] getM_aPhoto() {
+        return m_aPhoto;
+    }
+
+    public void setM_aPhoto(byte[] m_aPhoto) {
+        this.m_aPhoto = m_aPhoto;
+    }
+
     @Override
     public String toString() {
         JSONObject jPerson = new JSONObject();
@@ -132,7 +158,7 @@ public class Personal implements Serializable {
                     .put("birthday", m_sBday)
                     .put("otherInfo", m_sInfo)
                     .put("workThems", m_sWorkThems)
-                    .put("courses", m_CSchedule);
+                   /* .put("courses", m_CSchedule)*/;
             return (new JSONObject()).put("personal", jPerson).toString();
         } catch (JSONException e) {
         }

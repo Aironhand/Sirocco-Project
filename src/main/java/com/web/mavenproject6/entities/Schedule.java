@@ -33,21 +33,21 @@ public class Schedule implements Serializable {
     private String m_sType;
     private String m_sGroup;
     private String m_sWeek;
-    
+
     @ManyToOne
-    @JoinColumn(name = "m_lPersonalId",nullable = false)
+    @JoinColumn(name = "m_lPersonalId", nullable = false)
     private Personal m_CPersonal;
 
     @ManyToOne
-    @JoinColumn(name = "m_lAuditoryId",nullable = false)
+    @JoinColumn(name = "m_lAuditoryId", nullable = false)
     private Auditory m_CAuditory;
 
     @ManyToOne
-    @JoinColumn(name = "m_lCourseId",nullable = false)
+    @JoinColumn(name = "m_lCourseId", nullable = false)
     private Courses m_CCourse;
 
     @ManyToOne
-    @JoinColumn(name = "m_lBellId",nullable = false)
+    @JoinColumn(name = "m_lBellId", nullable = false)
     private Bells m_CBell;
 
     public Schedule() {
@@ -131,7 +131,26 @@ public class Schedule implements Serializable {
                     .put("course", m_sCourse)
                     .put("group", m_sGroup)
                     .put("type", m_sType)
-                    .put("week",m_sWeek)
+                    .put("week", m_sWeek)
+                    .put("teacher", m_CPersonal.toString())
+                    .put("bell", m_CBell)
+                    .put("auditory", m_CAuditory.toString());
+            return (new JSONObject()).put("schedule", jShedule).toString();
+        } catch (JSONException e) {
+        }
+        return "Error";
+    }
+
+    public String toString(Personal CPersonal) {
+        JSONObject jShedule = new JSONObject();
+        try {
+            jShedule
+                    .put("scheduleId", m_lScheduleId)
+                    .put("day", m_sDay)
+                    .put("course", m_sCourse)
+                    .put("group", m_sGroup)
+                    .put("type", m_sType)
+                    .put("week", m_sWeek)
                     .put("teacher", m_CPersonal.getM_sFST())
                     .put("bell", m_CBell.toString())
                     .put("auditory", m_CAuditory.getM_sNumber());
@@ -140,5 +159,4 @@ public class Schedule implements Serializable {
         }
         return "Error";
     }
-
 }

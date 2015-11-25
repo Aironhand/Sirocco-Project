@@ -24,13 +24,25 @@ public class ScheduleServiceImp implements ScheduleService {
 
     @Autowired
     private EntityManager em;
-    
+
     @Override
     public Object getSchedule(long id) throws NullPointerException {
-         try {
+        try {
             TypedQuery query = em.createQuery("select s from Schedule s where s.m_lScheduleId = ?1", Schedule.class);
             query.setParameter(1, id);
             return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public Object getSchedule(String fclt, String audNum) throws NullPointerException {
+        try {
+            TypedQuery query = em.createQuery("select s from Schedule s where s.m_CAuditory.m_CFaculty.m_sTitle = ?1 and s.m_CAuditory.m_sNumber = ?2", Schedule.class);
+            query.setParameter(1, fclt);
+            query.setParameter(2, audNum);
+            return query.getResultList();
         } catch (Exception ex) {
             return null;
         }

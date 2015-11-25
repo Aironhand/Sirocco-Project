@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="../resources/css/bootstrap.min.css" type="text/css"/>
+        <script src="../resources/js/jquery-2.1.4.min.js"></script>
+        <script src="../resources/js/script.js"></script>
+
+    </head>
+    <body>
+        <h1>Users list</h1>  
+        <table>
+            <tr>
+                <th>id</th>
+                <th>Название</th>
+                <th>Описание</th>
+            </tr>
+            <tr th:each="course : ${Courses}">
+                <td th:text="${course.m_lCourseId}">Onions</td>
+                <td th:text="${course.m_sTitle}">yes</td>
+                <td th:text="${course.m_sDescription}">2.41</td>
+                <td th:text="${course.m_lPersonalId}">yes</td>
+                <td><a th:href="@{'/course/del/'+${course.m_lCourseId}}">rEmove</a></td>
+            </tr>
+        </table> 
+        <p th:text="${id}" th:if="${!#strings.isEmpty(id)}">text</p>
+        <form th:action="@{/course/add}" method="POST">
+            <input type="text" th:name="title" th:value="${title}"/>
+            <input type="text" th:name="description" th:value="${description}"/>
+            <input type="text" th:name ="teacher" th:value="${teacher}"/>
+            <input type="submit"/>
+        </form>
+        <div class="row">
+            <div class="cocol-md-3">
+                <a class="btn btn-default get-userlist" >LLLList</a>
+                <div class="content-place">
+
+                </div>                
+            </div>
+        </div>    
+
+    </body>
+</html>

@@ -7,6 +7,7 @@ package com.web.mavenproject6.controller;
 
 import com.web.mavenproject6.entities.Schedule;
 import com.web.mavenproject6.service.ScheduleService;
+import java.util.List;
 import javax.persistence.EntityManager;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +30,18 @@ public class ScheduleController {
 
     @Autowired
     EntityManager em;
-    
+
     @Autowired
     ScheduleService scheduleService;
 
     @ResponseBody
     @RequestMapping(value = "/getScheduleJSON*", method = RequestMethod.GET)
-    public String getScheduleById(@RequestParam(value = "scheduleId") String id) throws JSONException {
-        Schedule CSchedule;
-
+    public String getScheduleByFcltftAud(@RequestParam(value = "fclt") String fcltId,
+            @RequestParam(value = "audNum") String audId) throws JSONException {
+        List<Schedule> CSchedule;
+        //System.err.println("mark = !"+fcltId + "!");
         try {
-            CSchedule = (Schedule) scheduleService.getSchedule(Long.parseLong(id));
+            CSchedule = (List<Schedule>) scheduleService.getSchedule(fcltId, audId);
             return CSchedule.toString();
         } catch (NullPointerException ex) {
             return "null";

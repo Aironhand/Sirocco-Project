@@ -9,43 +9,45 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+
 @Configuration
 @EnableWebMvcSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-        @Autowired
-	DataSource dataSource;
-        
-        @Autowired
-        private AuthenticationProvider CustomAuthenticationProvider;
-        
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {                 
-/*      auth
-        .inMemoryAuthentication()
-            .withUser("user").password("password").roles("USER").and()
-            .withUser("admin").password("password").roles("USER", "ADMIN");*/
-       auth.authenticationProvider(CustomAuthenticationProvider); 
+
+    @Autowired
+    DataSource dataSource;
+
+    @Autowired
+    private AuthenticationProvider CustomAuthenticationProvider;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        /*      auth
+         .inMemoryAuthentication()
+         .withUser("user").password("password").roles("USER").and()
+         .withUser("admin").password("password").roles("USER", "ADMIN");*/
+        auth.authenticationProvider(CustomAuthenticationProvider);
 //                     .jdbcAuthentication().dataSource(dataSource)
 //		.usersByUsernameQuery(
 //			"select username,password, enabled from users where username=?")
 //		.authoritiesByUsernameQuery(
 //			"select username, role from user_roles where username=?");
-	}
- 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception { 
-            
-            http
-            .authorizeRequests()                                                                
-                .antMatchers("/","/get**","/login","/vkapi**").permitAll()                  
-                .antMatchers("/admin/**").hasAuthority("admin")                                   
-                .anyRequest().authenticated() 
-            .and()
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/get**", "/login", "/vkapi**").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("admin")
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/login")
-            .permitAll();
-                    
+                .permitAll();
+
 //                    .failureUrl("/login?error")
 //                .usernameParameter("username").passwordParameter("password")
 //            .and()
@@ -54,6 +56,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .exceptionHandling().accessDeniedPage("/403")
 //            .and()
 //                .csrf();
-	}
-	
+    }
+
 }

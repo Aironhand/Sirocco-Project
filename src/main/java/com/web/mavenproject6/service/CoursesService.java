@@ -5,6 +5,7 @@
  */
 package com.web.mavenproject6.service;
 
+import com.web.mavenproject6.entities.Courses;
 import com.web.mavenproject6.repositories.CoursesRepository;
 
 /**
@@ -14,7 +15,10 @@ import com.web.mavenproject6.repositories.CoursesRepository;
 public interface CoursesService {
     long count();
     
+    void delete(Long id);
+    void add(Courses course);
     Object getLesson(long id);
+    
     Object getLesson();
     Object getLessonByPerson(long id);
     CoursesRepository getRepository();

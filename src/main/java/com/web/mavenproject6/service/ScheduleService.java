@@ -11,4 +11,5 @@ package com.web.mavenproject6.service;
  */
 public interface ScheduleService {
     Object getSchedule(long id);
+    Object getSchedule(String fclt, String audNum);
 }

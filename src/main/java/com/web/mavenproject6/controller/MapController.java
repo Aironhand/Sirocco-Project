@@ -40,10 +40,11 @@ public class MapController {
 
     @ResponseBody
     @RequestMapping(value = "/getMapJSON*", method = RequestMethod.GET)
-    public String getMap(@RequestParam(value = "fcltId") String fcltId, String stage) throws JSONException {
+    public String getMap(@RequestParam(value = "fcltId") String fcltId, 
+            @RequestParam (required = false, value = "stage", defaultValue = "1") String stage) throws JSONException {
         Map CMap;
         try {
-            CMap = (Map) mapService.getMap(Long.parseLong(fcltId), stage == null ? 1 : Integer.parseInt(stage));
+            CMap = (Map) mapService.getMap(Long.parseLong(fcltId),Integer.parseInt(stage));
             return CMap.toString();
         } catch (NullPointerException ex) {
             return "null";
