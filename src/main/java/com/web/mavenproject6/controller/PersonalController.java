@@ -13,7 +13,6 @@ import com.web.mavenproject6.service.MaterialsService;
 import com.web.mavenproject6.service.PersonalService;
 import java.util.List;
 import javax.persistence.EntityManager;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;

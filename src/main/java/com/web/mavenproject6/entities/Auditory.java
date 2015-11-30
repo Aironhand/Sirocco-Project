@@ -35,16 +35,15 @@ public class Auditory implements Serializable {
     private List<Schedule> m_CSchedule;
     
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long m_lAuditoryId;
+    
     
     private String m_sNumber;
     private String m_sDescription;
     private String m_sTitle;
-    
-    
     private int[] m_aPersonal;
+    
     private  byte[] m_aPhoto;
     
     @ManyToOne

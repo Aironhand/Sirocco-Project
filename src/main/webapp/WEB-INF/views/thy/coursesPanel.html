@@ -7,7 +7,7 @@ and open the template in the editor.
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>TODO supply a title</title>
-        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
         <link rel="stylesheet" href="../resources/css/bootstrap.min.css" type="text/css"/>
         <script src="../resources/js/jquery-2.1.4.min.js"></script>
@@ -15,6 +15,8 @@ and open the template in the editor.
 
     </head>
     <body>
+
+
         <h1>Users list</h1>  
         <table>
             <tr>
@@ -31,12 +33,26 @@ and open the template in the editor.
             </tr>
         </table> 
         <p th:text="${id}" th:if="${!#strings.isEmpty(id)}">text</p>
-        <form th:action="@{/course/add}" method="POST">
-            <input type="text" th:name="title" th:value="${title}"/>
+        <form th:action="@{/course/add}" method="POST" accept-charset="UTF-8">
+            <input type="text" th:id="ID" th:name="title" th:value="${title}"/>
             <input type="text" th:name="description" th:value="${description}"/>
             <input type="text" th:name ="teacher" th:value="${teacher}"/>
-            <input type="submit"/>
+           <input type="submit"/>
+            
         </form>
+        <form>
+        <input type="submit" value="View" onclick="echo()"/>
+</form>
+<script>
+function echo()
+{
+    var zn1 = document.getElementById("ID").value;
+alert(zn1);
+
+
+
+}
+</script>
         <div class="row">
             <div class="cocol-md-3">
                 <a class="btn btn-default get-userlist" >LLLList</a>

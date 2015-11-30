@@ -1,5 +1,6 @@
 package com.web.mavenproject6.config;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
@@ -97,5 +98,8 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    public static String encodeString(String str) throws UnsupportedEncodingException{
+        return new String(str.getBytes("ISO-8859-1"),"UTF-8");
+    }
 }
     

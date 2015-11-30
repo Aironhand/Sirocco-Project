@@ -41,15 +41,22 @@ public class Map implements Serializable {
     private Faculty m_CFaculty;
     
     public Map() {
-       // m_lMapSize = (HashMap<String, String>[]) new HashMap<?,?>[10];
+       m_lMapId = -1;
+       m_nCurrentFloor = -1;
+       m_nFloorCount = -1;
+       m_hmAuditories = null;
+       m_hmMapSize = null;
+       m_aPhoto = null;
     }
 
-    public Map(long m_lMapId, int m_nCurrentFloor, int m_nFloorCount, Faculty m_CFaculty) {
+    public Map(long m_lMapId, int m_nCurrentFloor, int m_nFloorCount, Faculty m_CFaculty,
+            HashMap<String ,String>[]  m_hmAuditories,HashMap<String,String>[] m_hmMapSize) {
         this.m_lMapId = m_lMapId;
         this.m_nCurrentFloor = m_nCurrentFloor;
         this.m_nFloorCount = m_nFloorCount;
         this.m_CFaculty = m_CFaculty;
-        
+        this.m_hmAuditories = m_hmAuditories;
+        this.m_hmMapSize = m_hmMapSize;
     }
 
     public long getM_lMapId() {

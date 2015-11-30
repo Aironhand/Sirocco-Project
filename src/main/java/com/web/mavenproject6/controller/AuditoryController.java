@@ -72,12 +72,12 @@ public class AuditoryController {
                 img = ImageIO.read(in);
             } else {
 
-                InputStream in = servletContext.getResourceAsStream("/resources/img/no_auditory.jpg");
+                InputStream in = servletContext.getResourceAsStream("/resources/img/noimg.png");
                 img = ImageIO.read(in);
             }
             return img;
         } catch (NullPointerException ex) {
-            InputStream in = servletContext.getResourceAsStream("/resources/img/no_auditory.jpg");
+            InputStream in = servletContext.getResourceAsStream("/resources/img/noimg.png");
             img = ImageIO.read(in);
             return img;
         }

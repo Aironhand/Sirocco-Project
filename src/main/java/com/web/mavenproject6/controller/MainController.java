@@ -89,7 +89,7 @@ public class MainController {
         if (logout != null) {
             model.addObject("msg", "You've been logged out successfully.");
         }
-        model.setViewName("thy/login");
+        model.setViewName("thy/loginPanel");
 
         return model;
 

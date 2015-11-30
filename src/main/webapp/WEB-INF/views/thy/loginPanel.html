@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   
+    
+    
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--<meta charset="utf-8" />-->
+	<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<title>Кафедра Компьютерных технологий</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<!-- <link href='https://fonts.googleapis.com/css?family=Marmelad&subset=latinc,cyrillic;' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Didact+Gothic&subset=latin,cyrillic;' rel='stylesheet' type='text/css'> -->
+	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+	
+        <link rel="stylesheet" type="text/css" href="/resources/css/orbit.css"/>
+        <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
+        
+       	<script type="text/javascript" src="/resources/js/jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery.orbit.js"></script>
+	<script src="https://cdn.rawgit.com/konvajs/konva/0.10.0/konva.min.js"></script>
+	<script type="text/javascript" src="/resources/js/main.js"></script>
+
+<!-- arcticModal -->
+<script src="/resources/js/jquery.arcticmodal-0.3.min.js"></script>
+<link rel="stylesheet" href="/resources/css/jquery.arcticmodal-0.3.css"/>
+
+<!-- arcticModal theme -->
+<link rel="stylesheet" href="/resources/css/simple.css" />
+</head>
+<script>
+	$(document).ready(function(){
+	
+		$(".toAnchHead").click(function(){		
+			$('html,body').animate({
+			   scrollTop: 0}, 2000);
+			return false; 
+		});
+		$('anchLink.a[href^="#"]').click(function(){
+			var el = $(this).attr('href');
+			var elName = el.substr(1,el.length);
+			$('html,body').animate({
+			   scrollTop: $("[name='"+elName+"'").offset().top}, 2000);
+			return false; 
+		});
+		$(".mnClose").click(function(){
+			$(".info-block").addClass("hideNews");
+			
+		});
+		
+		$(".bbtn").click(function(){
+			$("body,html").animate({
+			   scrollTop:$("body,html").scrollTop()+1900}, 2000);
+			
+			$(".info-block").removeClass("hideNews");
+					
+		});
+		
+		$(".bb1").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".about-cathedra").css({"display":"block"});
+			
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn1").addClass("control-btn-active");
+			
+		});
+		
+		
+		$(".bb2").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".teachers").css({"display":"block"});
+			
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn2").addClass("control-btn-active");
+			
+		});
+		
+		$(".bb3").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".abiturient").css({"display":"block"});
+			
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn3").addClass("control-btn-active");
+			
+		});
+		
+		$(".bb4").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".student").css({"display":"block"});
+			
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn4").addClass("control-btn-active");
+			
+		});
+		
+		$(".bb5").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".sciens").css({"display":"block"});
+			
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn5").addClass("control-btn-active");
+			
+		});
+		
+		$(".np1").click(function(){
+			$(".teachers").css({"display":"block"});
+			$(this).css({"display":"none"});
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn2").addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:$(".info-section").scrollTop()+595}, 2000);
+		});
+		
+		
+		$(".np2").click(function(){
+			$(".abiturient").css({"display":"block"});
+			$(this).css({"display":"none"});
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn3").addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:$(".info-section").scrollTop()+595}, 2000);
+		});
+		
+		$(".np3").click(function(){
+			$(".student").css({"display":"block"});
+			$(this).css({"display":"none"});
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn4").addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:$(".info-section").scrollTop()+595}, 2000);
+		});
+		
+		$(".np4").click(function(){
+			$(".sciens").css({"display":"block"});
+			$(this).css({"display":"none"});
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(".mn5").addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:$(".info-section").scrollTop()+595}, 2000);
+		});
+		
+		$(".mn1").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".next-part").css({"display":"block"});
+			$(".about-cathedra").css({"display":"block"});
+			$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(this).addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:0}, 1000);
+		});
+		
+		$(".mn2").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".next-part").css({"display":"block"});
+			$(".teachers").css({"display":"block"});
+				$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(this).addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:0}, 1000);
+		});
+		
+		$(".mn3").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".next-part").css({"display":"block"});
+			$(".abiturient").css({"display":"block"});
+				$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(this).addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:0}, 1000);
+		});
+		
+		$(".mn4").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".next-part").css({"display":"block"});
+			$(".student").css({"display":"block"});
+				$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(this).addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:0}, 1000);
+		});
+		
+		$(".mn5").click(function(){
+			$(".info-content").css({"display":"none"});
+			$(".next-part").css({"display":"block"});
+			$(".sciens").css({"display":"block"});
+				$(".control-btn").each(function(arg1,arg2){
+				$(this).removeClass("control-btn-active");
+			});
+			$(this).addClass("control-btn-active");
+			$(".info-section").animate({
+			   scrollTop:0}, 1000);
+		});
+	});
+</script>
+<body>
+    
+<div class="wrapper" name="anchHead">
+	
+	<header class="header">
+		<div class="logo"></div>
+		<h1>КОМПЬЮТЕРНЫЕ ТЕХНОЛОГИИ</h1>
+		<h2>ФИЗИКО-ТЕХНИЧЕСКИЙ ФАКУЛЬТЕТ</h2>
+		 
+	</header>
+  <div tiles:fragment="content">
+        <form name="f" th:action="@{/login}" method="post">               
+            <fieldset>
+                <legend>Please Login</legend>
+                <div th:if="${param.error}" class="alert alert-error">    
+                    Неверное имя пользователя или пароль
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success"> 
+                    You have been logged out.
+                </div>
+                <label color ="white" for="username"><p>Логин</p></label>
+                <input type="text" id="username" name="username"/>        
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password"/>    
+                <div class="form-actions">
+                    <button type="submit" class="btn">Войти</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+	
+	
+	
+	
+<!-- .wrapper -->
+<!--
+<div class="modal-photo-window">
+		<div class="photo-content" scrolling="yes">
+		
+		</div>
+</div>
+	-->
+<div style="display: none;">
+    <div class="box-modal show-modal photo-content">
+        <div class="box-modal_close arcticmodal-close">закрыть</div>
+        	<img src="" alt="*"/>
+			<img src="" alt="*"/>
+			<img src="" alt="*"/>
+			<img src="" alt="*"/>
+			<img src="" alt="*"/>
+			<img src="" alt="*"/>
+    </div>
+</div>	
+<script type="text/javascript" src="/resources/js/konvaScript.js"></script>
+</body>
+</html>

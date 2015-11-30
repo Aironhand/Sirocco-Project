@@ -7,7 +7,6 @@ package com.web.mavenproject6.service;
 
 import com.web.mavenproject6.entities.Auditory;
 import com.web.mavenproject6.repositories.AuditoryRepository;
-import java.awt.image.BufferedImage;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +34,7 @@ public class AuditoryServiceImp implements AuditoryService {
                     .setParameter(2, fcltId);
             return query.getSingleResult();
         } catch (Exception ex) {
+            
             return null;
         }
     }

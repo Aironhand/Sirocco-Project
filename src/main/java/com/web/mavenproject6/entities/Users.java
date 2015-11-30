@@ -88,7 +88,7 @@ public class Users implements Serializable
     public void setRole(String role) {
         this.role = role;
     }
-  /*
+  
     @Override
     public String toString() {
         JSONObject m_jUser = new JSONObject();
@@ -102,5 +102,5 @@ public class Users implements Serializable
         } catch (JSONException e) {
         }
         return "Error";
-    }*/
+    }
 }

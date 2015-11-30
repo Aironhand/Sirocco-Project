@@ -5,7 +5,10 @@
  */
 package com.web.mavenproject6.controller;
 
+import com.web.mavenproject6.config.MvcConfiguration;
+import com.web.mavenproject6.entities.Faculty;
 import com.web.mavenproject6.entities.Users;
+import com.web.mavenproject6.service.FacultyServiceImp;
 import com.web.mavenproject6.service.UserServiceImp;
 import java.io.IOException;
 import java.util.Date;
@@ -34,6 +37,9 @@ public class UserController {
 
     @Autowired
     UserServiceImp userServiceImp;
+    
+    @Autowired
+    FacultyServiceImp fcltServiceImp;
 
     @RequestMapping(value = "/signup")
     public ModelAndView signUpUser(HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) {
@@ -48,20 +54,47 @@ public class UserController {
         return new ModelAndView("thy/home");
     }
 
-    @RequestMapping("/admin/apanel")
+    @RequestMapping("/admin/users")
     public String home(Map<String, Object> model) {
         model.put("users", userServiceImp.list());
-        return "thy/adminPanel";
+        return "thy/entities/usersPanel";
     }
 
+    @RequestMapping("/admin/faculties")
+    public String fc(Map<String, Object> model) {
+        model.put("Faculties", fcltServiceImp.list());
+        return "thy/entities/facultyPanel";
+    }
+    
+    @RequestMapping(value = "/fclt/add", method = RequestMethod.POST)
+    public void addFclt(@RequestParam("title") String title,
+            @RequestParam("info") String info,
+            HttpServletResponse response, ModelMap map) throws IOException {
+        Faculty f = new Faculty();
+        f.setM_sTitle(MvcConfiguration.encodeString(title));
+        f.setM_sInfo(MvcConfiguration.encodeString(info));
+       
+        fcltServiceImp.add(f);
+        response.sendRedirect("/admin/faculties");
+        // return "redirect:admin/apanel";
+    }
+    
+    @RequestMapping(value = "/fclt/del/{fcltId}", method = RequestMethod.GET)
+    public void deleteFclt(@PathVariable("fcltId") String id/*, HttpServletRequest request*/, HttpServletResponse response, ModelMap map) throws IOException {
+        fcltServiceImp.delete((long) Integer.parseInt(id));
+        map.addAttribute("id", id);
+        response.sendRedirect("/admin/faculties");
+        //   return "redirect:admin/apanel";
+    }
+    
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public void addUser(@RequestParam("username") String username,
             @RequestParam("password") String pass,
             @RequestParam(required = false, value = "admin", defaultValue = "false") boolean admin,
             HttpServletResponse response, ModelMap map) throws IOException {
         Users u = new Users();
-        u.setUsername(username);
-        u.setPassword(pass);
+        u.setUsername(MvcConfiguration.encodeString(username));
+        u.setPassword(MvcConfiguration.encodeString(pass));
         if (admin) {
             u.setRole("admin");
         } else {
@@ -69,7 +102,7 @@ public class UserController {
         }
         u.setEnabled(true);
         userServiceImp.add(u);
-        response.sendRedirect("/admin/apanel");
+        response.sendRedirect("/admin/users");
         // return "redirect:admin/apanel";
     }
 
@@ -77,7 +110,7 @@ public class UserController {
     public void deleteUser(@PathVariable("userId") String id/*, HttpServletRequest request*/, HttpServletResponse response, ModelMap map) throws IOException {
         userServiceImp.delete((long) Integer.parseInt(id));
         map.addAttribute("id", id);
-        response.sendRedirect("/admin/apanel");
+        response.sendRedirect("/admin/users");
         //   return "redirect:admin/apanel";
     }
 

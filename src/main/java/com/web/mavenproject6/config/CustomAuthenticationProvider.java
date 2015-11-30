@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.web.mavenproject6.config;
 
 import com.web.mavenproject6.entities.Users;
 import com.web.mavenproject6.service.UserServiceImp;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,30 +25,34 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    UserServiceImp userServiceImp; 
-    
+    UserServiceImp userServiceImp;
+
     public CustomAuthenticationProvider() {
         super();
     }
-    
-    // API
 
+    // API
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
-        final String name = authentication.getName();
-        final String password = authentication.getCredentials().toString();
+        String name = null;
+        String password = null;
+        try {
+            name = MvcConfiguration.encodeString(authentication.getName());
+            password = MvcConfiguration.encodeString(authentication.getCredentials().toString());
+        } catch (UnsupportedEncodingException ex) {
+        }
 
-        for(Users u:userServiceImp.list()){
-            if (u.getUsername().equals(name)&&u.getPassword().equals(password)){
+        for (Users u : userServiceImp.list()) {
+            if (u.getUsername().equals(name) && u.getPassword().equals(password)) {
                 final List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
                 grantedAuths.add(new SimpleGrantedAuthority(u.getRole()));
                 final UserDetails principal = new User(name, password, grantedAuths);
                 final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
-                return auth;                
+                return auth;
             }
-            
+
         }
-        return null;       
+        return null;
     }
 
     @Override
